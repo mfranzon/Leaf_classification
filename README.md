@@ -1,6 +1,6 @@
 # Leaf Classification
 This repository contains:
-* a dataset of leaves measures, 15 variables and 30 classes 
+* a [dataset](https://github.com/mfranzon/leaf_classification/blob/master/leaf.csv) of leaves measures, 15 variables and 30 classes 
 * a dataset of leaves images in RGB, 40 classes
 * a dataset of leaves images in BW scale, 36 classes 
 
