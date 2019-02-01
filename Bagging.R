@@ -1,4 +1,4 @@
-attach(training)
+
 leaf_adb <- randomForest(Species~., data = training, mtyry = 14 , ntree = 2000)
 
 varImpPlot(leaf_adb)
