@@ -7,7 +7,10 @@ train_n <- as.data.frame(lapply(training[2:15], normalize))
 
 test_n  <- as.data.frame(lapply(test[2:15], normalize))
 
-leaf_knn <- knn(train = train_n, test = test_n, cl = trainL, k = 6)#about square root of classes
+tcontrol <- trainControl(method = "cv", number = 10)
+
+leaf_knn<-train(Species ~ ., data = training, method = "knn", preProcess = c("center", 
+                                                                             "scale"), trControl = tcontrol)
 
 summary(leaf_knn)
 
