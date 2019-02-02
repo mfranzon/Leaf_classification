@@ -1,3 +1,4 @@
+#features from 2 to 11 regards shape behaviour of leaves, while from 12 to 15 the texture
 Shape <- training[,2:11]
 pr_shape<-princomp(Shape)
 Texture<- training[,12:15]
