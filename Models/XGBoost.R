@@ -1,11 +1,14 @@
+#change Species in numeric 
 train_labs<-as.numeric(training$Species)-1
 
 test_labs <- as.numeric(test$Species)-1
 
+#create a matrix without Species
 new_train <- model.matrix(~ . + 0, data = training[, -1])
 
 new_test <- model.matrix(~ . + 0, data = test[, -1])
 
+#create a DMatrix suitable for XGBoosting
 xgb_train<- xgb.DMatrix(data=new_train, label = train_labs)
 
 xgb_test <- xgb.DMatrix(data = new_test, label = test_labs)
@@ -13,6 +16,7 @@ xgb_test <- xgb.DMatrix(data = new_test, label = test_labs)
 params <- list(booster = "gbtree", objective = "multi:softprob", num_class = 30, 
                eval_metric = "mlogloss")
 
+#cross-validation
 xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds =  1000, nfold = 5, 
                 showsd = TRUE, stratified = TRUE, print.every.n = 10, early_stop_round = 20, 
                 maximize = FALSE, prediction = TRUE)
@@ -20,7 +24,7 @@ xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds =  1000, nfold = 5,
 xgb_train_preds <- data.frame(xgbcv$pred) %>% mutate(max = max.col(., ties.method = "last"), 
                                                      label = train_labs + 1)
 
-
+#confusion matrix 
 xgb_conf_mat <- table(true = train_labs + 1, pred = xgb_train_preds$max)
 
 classification_error <- function(conf_mat) {
@@ -31,13 +35,13 @@ classification_error <- function(conf_mat) {
   return (error)
 }
 
-cat("XGB Training Classification Error Rate:", classification_error(xgb_conf_mat), "\n")
+cat("XGB Training Classification Error Rate:", classification_error(xgb_conf_mat), "\n") #classification error rate in %
 
 xgb_conf_mat_2 <- confusionMatrix(factor(xgb_train_preds$label),
                                   factor(xgb_train_preds$max),
                                   mode = "everything")
-
-xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 100)
+#prediction of test set
+xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 1000)
 
 xgb_test_preds <- predict(xgb_model, newdata = xgb_test)
 
