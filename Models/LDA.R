@@ -10,6 +10,8 @@ tab_lda <- table(Predicted = pred_lda$class, Actual = leaf$Species)
 
 misc <-1-sum(diag(tab_lda))/sum(tab_lda)
 
+print(misc)
+
 plot(pred_lda$x[,1],pred_lda$x[,2], col = leaf$Species) # make a scatterplot
 
 
@@ -24,7 +26,9 @@ tpred_lda <- predict(leaf_lda, test)
 
 ttab_lda <- table(Predicted = tpred_lda$class, Actual = test$Species)
 
-misc <-1-sum(diag(ttab_lda))/sum(ttab_lda)
+tmisc <-1-sum(diag(ttab_lda))/sum(ttab_lda)
+
+print(tmisc)
 
 plot(tpred_lda$x[,1],tpred_lda$x[,2], col = leaf$Species) # make a scatterplot
 

@@ -1,3 +1,4 @@
+#k-means clustering 
 leaf2 <- leaf[, 2:15]
 
 leaf_k <- kmeans(leaf2, 30)

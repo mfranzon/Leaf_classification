@@ -8,8 +8,6 @@ corrplot(L, method = "pie")
 
 autoplot(cluster::pam(leaf[,3:15], 30), frame = TRUE, frame.type = 'norm')
 
-colnames(leaf)<-c("Species", "Specimen Number", "Eccentricity", "Aspect Ratio", "Elongation", "Solidity", "Stochastic Convexity", "Isoperimetric Factor", "Maximal Indentation Depth", "Lobedness", "Average Intensity", "Average Contrast", "Smoothness", "Third moment", "Uniformity", "Entropy")
-
 leaf$Species <- as.factor(leaf$Species)
 
 leaf$`Specimen Number`<-NULL
